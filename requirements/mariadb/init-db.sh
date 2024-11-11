@@ -1,3 +1,5 @@
+#!/bin/bash
+
 service mariadb start
 
 while ! mysqladmin ping -h localhost --silent; do
