@@ -1,0 +1,56 @@
+networks:
+  custom_network:
+
+volumes:
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      # device: /home/ykawakit/data/wordpress
+      device: ../volumes/wordpress
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      # device: /home/ykawakit/data/mariadb
+      device: ../volumes/mariadb
+
+services:
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    ports:
+      - 443:443
+    restart: always
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - custom_network
+
+  wordpress:
+    container_name: wordpress
+    build: requirements/wordpress
+    restart: always
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - custom_network
+
+  mariadb:
+    container_name: mariadb
+    build: requirements/mariadb
+    restart: always
+    networks:
+      - custom_network
+    env_file:
+      - .env
+    volumes:
+      - mariadb_data:/var/lib/mysql
