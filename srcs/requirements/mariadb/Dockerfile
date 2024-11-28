@@ -6,7 +6,7 @@ RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld && chmod 77
 
 EXPOSE 3306
 
-COPY ./script.sh /script.sh
+COPY ./tools/script.sh /script.sh
 
 COPY ./conf/wordpress.sql /wordpress.sql
 
