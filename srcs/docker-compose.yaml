@@ -57,3 +57,15 @@ services:
       - .env
     volumes:
       - mariadb_data:/var/lib/mysql
+
+  redis:
+    container_name: redis
+    build: requirements/bonus/redis
+    image: redis
+    restart: always
+    networks:
+      - custom_network
+    volumes:
+      - wordpress_data:/data
+    depends_on:
+      - wordpress

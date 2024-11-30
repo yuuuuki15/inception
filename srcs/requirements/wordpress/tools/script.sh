@@ -6,6 +6,12 @@ cleanup() {
 }
 trap cleanup SIGTERM SIGINT
 
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+chmod +x wp-cli.phar
+
+mv wp-cli.phar /usr/local/bin/wp
+
 if [ -f /var/www/html/wp-config.php ]; then
     echo "WordPress is already installed. Skipping installation."
 else
@@ -34,8 +40,20 @@ else
     sed -i "s/password_here/$MYSQL_PASSWORD/g" wp-config.php
     sed -i "s/localhost/mariadb/g" wp-config.php
 
+    if ! grep -q "WP_REDIS_HOST" wp-config.php; then
+        sed -i '/DB_COLLATE/a define( '\''WP_REDIS_HOST'\'', '\''redis'\'' );' wp-config.php
+        sed -i '/DB_COLLATE/a define( '\''WP_REDIS_PORT'\'', 6379 );' wp-config.php
+        sed -i '/DB_COLLATE/a define('\''WP_CACHE'\'', true);' wp-config.php
+        sed -i '/DB_COLLATE/a define('\''FS_METHOD'\'', '\''direct'\'');' wp-config.php
+    fi
+
     echo "Wordpress configured"
 
+    wp plugin install redis-cache --activate --allow-root
+
+    wp plugin update --all --allow-root
+
+    wp redis enable --allow-root
 fi
 
 /usr/sbin/php-fpm7.4 -R -F &
