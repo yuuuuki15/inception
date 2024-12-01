@@ -50,6 +50,7 @@ else
     echo "Wordpress configured"
 
     wp plugin install redis-cache --activate --allow-root
+    wp plugin install wp-file-manager --activate --allow-root
 
     wp plugin update --all --allow-root
 

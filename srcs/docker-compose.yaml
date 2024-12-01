@@ -69,3 +69,24 @@ services:
       - wordpress_data:/data
     depends_on:
       - wordpress
+
+  ftp:
+    container_name: ftp
+    build: requirements/bonus/ftp
+    image: ftp
+    restart: always
+    networks:
+      - custom_network
+    volumes:
+      - wordpress_data:/home/ykawakit/ftp/files
+    depends_on:
+      - wordpress
+    ports:
+      - 21:21
+      - 20:20
+      - 40000:40000
+      - 40001:40001
+      - 40002:40002
+      - 40003:40003
+      - 40004:40004
+      - 40005:40005
