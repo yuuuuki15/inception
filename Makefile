@@ -8,7 +8,9 @@ ${NAME}:
 clean:
 	docker-compose -f srcs/docker-compose.yaml down
 	docker volume rm srcs_mariadb_data srcs_wordpress_data
-	rm -rf volumes/mariadb/* volumes/wordpress/*
+	rm -rf /home/ykawakit/data/mariadb/* /home/ykawakit/data/wordpress/*
+
+# rm -rf volumes/mariadb/* volumes/wordpress/*
 
 fclean: clean
 

@@ -7,15 +7,15 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      # device: /home/ykawakit/data/wordpress
-      device: ../volumes/wordpress
+      device: /home/ykawakit/data/wordpress
+      # device: ../volumes/wordpress
   mariadb_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      # device: /home/ykawakit/data/mariadb
-      device: ../volumes/mariadb
+      device: /home/ykawakit/data/mariadb
+      # device: ../volumes/mariadb
 
 services:
   nginx:
